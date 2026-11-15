@@ -96,6 +96,7 @@
   const modalPersonaBadges = document.getElementById('modal-persona-badges');
   const modalWhoShouldRead = document.getElementById('modal-who-should-read');
   const modalRelatedBooks = document.getElementById('modal-related-books');
+  const modalFullpageLink = document.getElementById('modal-fullpage-link');
   const modalPrevBtn = document.getElementById('modal-prev-btn');
   const modalNextBtn = document.getElementById('modal-next-btn');
   const modalPositionIndicator = document.getElementById('modal-position-indicator');
@@ -379,9 +380,9 @@
               <div class="flex flex-wrap gap-1">
                 ${personaBadgesHtml}
               </div>
-              <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 inline-flex items-center gap-1 shrink-0">
-                내용 보기 <i class="fa-solid fa-chevron-right text-[10px]"></i>
-              </span>
+              <a href="/book/${book.id}" data-detail-page-link="${book.id}" class="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline inline-flex items-center gap-1 shrink-0">
+                상세 리뷰 <i class="fa-solid fa-chevron-right text-[10px]"></i>
+              </a>
             </div>
           </article>
         `;
@@ -397,6 +398,11 @@
         if (bookmarkBtn) {
           e.stopPropagation();
           toggleBookmark(bookId);
+          return;
+        }
+        const detailLink = e.target.closest('[data-detail-page-link]');
+        if (detailLink) {
+          e.stopPropagation();
           return;
         }
         openBookModal(bookId);
@@ -478,6 +484,10 @@
     modalBookAuthor.textContent = book.author;
     modalCoverIcon.className = `fa-solid ${book.coverTheme.icon} text-3xl`;
     modalCoverIcon.style.color = book.coverTheme.accent;
+
+    if (modalFullpageLink) {
+      modalFullpageLink.setAttribute('href', `/book/${book.id}`);
+    }
 
     updateModalBookmarkButton(book.id);
 
