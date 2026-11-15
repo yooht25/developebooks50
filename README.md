@@ -1,21 +1,57 @@
-```txt
-npm install
-npm run dev
+# 성장 서재 50 (인생을 바꾸는 자기계발서 50선 큐레이션 웹앱)
+
+## 프로젝트 개요
+- **프로젝트명**: 성장 서재 50 (`webapp`)
+- **목표**: 시대를 초월해 검증된 자기계발서 50권을 엄선하여 소개하고, **어떤 사람들이 읽어야 하는지(독자 유형 메뉴)** 선택하여 맞춤형 도서를 찾고, 각 도서를 클릭하면 **작가 소개와 핵심 내용·교훈·명문장**을 상세히 열람할 수 있는 반응형 웹 애플리케이션.
+- **기술 스택**: Hono + TypeScript + Cloudflare Pages + Tailwind CSS + Vanilla JavaScript + FontAwesome
+
+## 공개 접속 URL
+- **샌드박스 미리보기 URL**: https://3000-iow1tbugc9tgknr4nxvug-8f57ffe2.sandbox.novita.ai
+- **API 엔드포인트**:
+  - `GET /` : 메인 자기계발서 50선 큐레이션 웹페이지
+  - `GET /api/personas` : 독자 유형(어떤 사람이 읽어야 하는지) 카테고리 8종 및 각 권수 반환
+  - `GET /api/books?persona={id}&difficulty={입문|중급|심화}&q={검색어}&sort={정렬}` : 조건별 자기계발서 목록 조회
+  - `GET /api/books/:id` : 개별 도서 상세 정보(작가 소개, 줄거리/핵심내용, 핵심 교훈 3가지, 명문장, 추천 독자, 연관 도서) 조회
+
+## 현재 구현 완료된 주요 기능
+1. **자기계발서 50권 완비 데이터베이스 (`src/data/`)**:
+   - 《아주 작은 습관의 힘》, 《그릿》, 《성공하는 사람들의 7가지 습관》, 《데일 카네기 인간관계론》, 《죽음의 수용소에서》, 《세이노의 가르침》, 《역행자》, 《부의 추월차선》, 《돈의 심리학》, 《원씽》, 《딥 워크》, 《미움받을 용기》, 《내가 틀릴 수도 있습니다》 등 국내외 대표 필독서 50권 수록.
+2. **어떤 사람들이 봐야 하는지 선택하는 독자 유형 메뉴 (8개 탭)**:
+   - 전체 50권 보기
+   - 습관 · 집중력 (`작심삼일 끝! 습관과 집중력이 필요한 사람`)
+   - 멘탈 · 자존감 (`번아웃·불안 극복! 멘탈 관리와 자존감이 필요한 사람`)
+   - 커리어 · 성취 (`일잘러 & 커리어 도약! 압도적 성취를 원하는 사람`)
+   - 인간관계 · 소통 (`인간관계·대화법 고민! 소통과 리더십을 키우고 싶은 사람`)
+   - 부 · 재테크 마인드 (`경제적 자유와 부의 추월차선을 꿈꾸는 사람`)
+   - 인생 방향 · 통찰 (`인생의 방향을 잃었을 때! 삶의 의미와 통찰을 찾는 사람`)
+   - 창의성 · 사고법 (`틀을 깨는 사고력! 창의성과 기획력을 넓히고 싶은 사람`)
+3. **도서 클릭 시 상세 모달 뷰**:
+   - 작가 이름 및 상세 작가 약력(Author Bio)
+   - 책의 핵심 내용 및 줄거리 요약
+   - 삶에 바로 적용하는 핵심 교훈 3가지
+   - 책 속 대표 명문장 인용구
+   - 이 책을 꼭 읽어야 하는 구체적 추천 대상 체크리스트 & 연관 도서 바로가기
+   - 이전/다음 도서 이동 버튼 및 키보드(`ESC`, `←`, `→`) 단축키 지원
+4. **편의 기능**:
+   - 제목·작가·고민 키워드 실시간 통합 검색 및 난이도(입문/중급/심화)·출간연도 정렬
+   - **오늘의 운명 도서 뽑기** (현재 선택된 독자 유형 내 랜덤 추천)
+   - **내 서재 북마크** (`localStorage` 기반으로 관심 도서 저장 및 모아보기)
+
+## 데이터 아키텍처
+- **데이터 모델**: `Book` (id, title, originalTitle, author, authorBio, year, summary, keyLessons, quote, personas, whoShouldRead, readingTime, difficulty, coverTheme, tags) 및 `PersonaCategory`
+- **저장소 구성**: 정적 엣지 번들 내 구조화된 TypeScript 데이터 모듈 + 브라우저 `localStorage` (사용자별 개인 북마크 저장)
+
+## 향후 확장 가능한 기능 (Next Steps)
+- Cloudflare D1 데이터베이스 연동을 통한 독자 한줄평/리뷰 작성 및 공감 투표 기능 추가
+- 독서 완료 체크리스트 및 개인별 독서 노트 저장 기능
+- 도서별 예상 독서 시간 계산기 및 독서 챌린지 트래커 추가
+
+## 실행 및 배포 방법
+```bash
+# 빌드
+npm run build
+
+# 로컬 샌드박스 실행 (PM2)
+pm2 start ecosystem.config.cjs
 ```
-
-```txt
-npm run deploy
-```
-
-[For generating/synchronizing types based on your Worker configuration run](https://developers.cloudflare.com/workers/wrangler/commands/#types):
-
-```txt
-npm run cf-typegen
-```
-
-Pass the `CloudflareBindings` as generics when instantiation `Hono`:
-
-```ts
-// src/index.ts
-const app = new Hono<{ Bindings: CloudflareBindings }>()
-```
+- **상태**: ✅ 정상 가동 중 (마지막 업데이트: 2026-11-15)
