@@ -1,3 +1,5 @@
+import { EXTRA_EDITORIAL_GUIDES } from './guidesExtra';
+
 export interface EditorialGuideSection {
   heading: string;
   paragraphs: string[];
@@ -19,7 +21,7 @@ export interface EditorialGuide {
   conclusion: string;
 }
 
-export const EDITORIAL_GUIDES: EditorialGuide[] = [
+const BASE_EDITORIAL_GUIDES: EditorialGuide[] = [
   {
     slug: 'how-to-read-self-help-books-without-failing',
     title: '자기계발서를 100권 읽어도 인생이 그대로인 이유와 진짜 변화를 만드는 4단계 실천 독서법',
@@ -220,4 +222,9 @@ export const EDITORIAL_GUIDES: EditorialGuide[] = [
     ],
     conclusion: '진정한 부의 목적은 남에게 과시하기 위한 사치품이 아니라, 내가 사랑하는 사람들과 원하는 시간에 원하는 일을 선택할 수 있는 삶의 자율성입니다. 올바른 돈의 철학 위에서 흔들림 없는 경제적 자유를 쌓아 올리시길 응원합니다.'
   }
+];
+
+export const EDITORIAL_GUIDES: EditorialGuide[] = [
+  ...BASE_EDITORIAL_GUIDES,
+  ...EXTRA_EDITORIAL_GUIDES
 ];

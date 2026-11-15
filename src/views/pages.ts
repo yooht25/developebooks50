@@ -212,7 +212,72 @@ export function renderBookDetailPageContent(
               ${tagsHtml}
             </div>
           </section>
+
+          <!-- 7. 나만의 실천 다짐 & 독서 노트 (브라우저 자동 저장 양방향 도구) -->
+          <section aria-labelledby="book-note-sec" class="bg-indigo-50/50 dark:bg-slate-800/60 rounded-2xl p-6 border border-indigo-100 dark:border-slate-700">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+              <h2 id="book-note-sec" class="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <i class="fa-solid fa-pen-to-square text-indigo-600 dark:text-indigo-400"></i>
+                나만의 독서 실천 노트 (내 브라우저에 자동 보관)
+              </h2>
+              <label class="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 cursor-pointer select-none">
+                <input type="checkbox" id="book-read-done-checkbox" data-book-id="${book.id}" class="w-4 h-4 rounded accent-emerald-600" />
+                <span>이 책 완독 완료 표시</span>
+              </label>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mb-3">
+              책을 덮은 뒤 내일 당장 실행할 <strong>단 1가지 작은 행동(One Action)</strong>이나 기억하고 싶은 문장을 적어보세요.
+            </p>
+            <textarea
+              id="book-personal-note"
+              data-book-id="${book.id}"
+              rows="3"
+              placeholder="예: 매일 아침 출근 전 10분 동안 스마트폰 대신 이 책의 원칙 1가지를 점검하겠다..."
+              class="w-full p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-stone-200 dark:border-slate-700 text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+            ></textarea>
+            <div class="mt-2.5 flex items-center justify-between">
+              <span id="book-note-status" class="text-xs text-slate-500 dark:text-slate-400">작성 후 저장 버튼을 누르면 이 기기에 안전하게 보존됩니다.</span>
+              <button type="button" id="save-book-note-btn" class="px-4 py-2 rounded-xl bg-indigo-600 text-white text-xs font-bold hover:bg-indigo-700 transition">
+                실천 노트 저장
+              </button>
+            </div>
+          </section>
         </div>
+        <script>
+          (function () {
+            var noteEl = document.getElementById('book-personal-note');
+            var saveBtn = document.getElementById('save-book-note-btn');
+            var statusEl = document.getElementById('book-note-status');
+            var doneBox = document.getElementById('book-read-done-checkbox');
+            if (!noteEl) return;
+            var bookId = noteEl.getAttribute('data-book-id');
+            var noteKey = 'growth_library_note_v1_' + bookId;
+            var doneKey = 'growth_library_done_v1_' + bookId;
+            try {
+              var saved = localStorage.getItem(noteKey);
+              if (saved) noteEl.value = saved;
+              if (doneBox && localStorage.getItem(doneKey) === '1') doneBox.checked = true;
+            } catch (e) {}
+            if (saveBtn) {
+              saveBtn.addEventListener('click', function () {
+                try {
+                  localStorage.setItem(noteKey, noteEl.value);
+                  if (statusEl) {
+                    statusEl.textContent = '✓ 저장되었습니다! 언제든 다시 와서 점검해 보세요.';
+                    statusEl.className = 'text-xs font-bold text-emerald-600 dark:text-emerald-400';
+                  }
+                } catch (e) {}
+              });
+            }
+            if (doneBox) {
+              doneBox.addEventListener('change', function () {
+                try {
+                  localStorage.setItem(doneKey, doneBox.checked ? '1' : '0');
+                } catch (e) {}
+              });
+            }
+          })();
+        </script>
 
         <!-- 이전 / 다음 도서 이동 네비게이션 -->
         <nav aria-label="이전 및 다음 도서 이동" class="px-6 sm:px-10 py-5 bg-stone-50 dark:bg-slate-800/80 border-t border-stone-200 dark:border-slate-800 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
@@ -611,6 +676,80 @@ export function renderContactPageContent(): string {
           </div>
         </div>
       </article>
+    </div>
+  `;
+}
+
+export function renderQuizPageContent(personasJson: string): string {
+  return `
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+      <nav aria-label="경로" class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mb-6 flex items-center gap-2">
+        <a href="/" class="hover:text-indigo-600">홈</a>
+        <span>/</span>
+        <span class="text-slate-800 dark:text-slate-200 font-semibold">1분 맞춤 인생책 진단 테스트</span>
+      </nav>
+
+      <header class="mb-8">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 text-xs font-bold mb-3">
+          <i class="fa-solid fa-stethoscope"></i> 인터랙티브 북 큐레이터 진단
+        </span>
+        <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white leading-tight serif-heading">
+          지금 내 상황에 가장 필요한<br class="hidden sm:inline" /> 맞춤 인생 자기계발서 찾기
+        </h1>
+        <p class="mt-3 text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+          5가지 간단한 질문에 답하면 현재 겪고 있는 고민 유형, 행동 성향, 선호하는 독서 난이도와 가용 시간을 종합 분석하여 50권 중 최적의 책 3권을 처방해 드립니다.
+        </p>
+      </header>
+
+      <!-- 진단 진행 스테이지 -->
+      <section id="quiz-stage" class="bg-white dark:bg-slate-900 rounded-3xl border border-stone-200 dark:border-slate-800 p-6 sm:p-9 shadow-sm">
+        <div class="flex items-center justify-between text-xs font-bold text-indigo-600 dark:text-indigo-400 mb-2">
+          <span id="quiz-step-label">질문 1 / 5</span>
+          <button type="button" id="quiz-prev-btn" class="invisible text-slate-500 hover:text-slate-800 dark:hover:text-white transition">
+            <i class="fa-solid fa-arrow-left mr-1"></i>이전 질문으로
+          </button>
+        </div>
+        <div class="w-full h-2 rounded-full bg-stone-100 dark:bg-slate-800 overflow-hidden mb-7">
+          <div id="quiz-progress-bar" class="h-full bg-indigo-600 rounded-full transition-all duration-300" style="width: 20%;"></div>
+        </div>
+
+        <h2 id="quiz-question-title" class="text-lg sm:text-2xl font-extrabold text-slate-900 dark:text-white leading-snug serif-heading"></h2>
+        <p id="quiz-question-sub" class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1.5 mb-6"></p>
+
+        <div id="quiz-options-container" class="space-y-3"></div>
+      </section>
+
+      <!-- 진단 완료 결과 스테이지 -->
+      <section id="quiz-result-stage" class="hidden space-y-8">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl border border-stone-200 dark:border-slate-800 p-6 sm:p-9 shadow-sm">
+          <span id="quiz-result-badge" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold text-white mb-4"></span>
+          <h2 id="quiz-result-title" class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white serif-heading"></h2>
+          <p id="quiz-result-desc" class="mt-2.5 text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed"></p>
+          <div class="mt-5 flex flex-wrap items-center gap-3">
+            <a id="quiz-result-category-link" href="/category/habit-focus" class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:underline">
+              해당 분야 전체 추천 도서 보기
+            </a>
+            <button type="button" id="quiz-retry-btn" class="px-3.5 py-1.5 rounded-xl bg-stone-100 dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-stone-200 dark:hover:bg-slate-700 transition">
+              <i class="fa-solid fa-rotate-left mr-1"></i>다시 진단하기
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-extrabold text-slate-900 dark:text-white mb-4 serif-heading">당신을 위한 맞춤 처방 도서 TOP 3</h3>
+          <div id="quiz-result-books" class="space-y-5"></div>
+        </div>
+      </section>
+
+      <!-- 진단 원리 설명 섹션 (크롤러 및 독자를 위한 풍부한 설명 텍스트) -->
+      <section class="mt-12 bg-stone-100/80 dark:bg-slate-900/70 rounded-2xl p-6 border border-stone-200 dark:border-slate-800 space-y-3">
+        <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">맞춤 독서 진단 알고리즘 안내</h2>
+        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+          본 진단 도구는 구글 애드센스 및 웹 품질 가이드라인이 권장하는 '사용자 맞춤형 양방향 가치 제공'을 위해 설계되었습니다. 독자의 현재 핵심 고민(습관·집중력, 멘탈·회복탄력성, 커리어·성취, 인간관계·소통, 부·재테크, 인생 철학, 창의적 사고)과 선호 독서 난이도(입문·중급·심화), 일일 가용 독서 시간을 교차 가중치로 계산하여 가장 완독 확률이 높은 필독서를 우선 추천합니다.
+        </p>
+      </section>
+
+      <script id="quiz-books-data" type="application/json">${personasJson}</script>
     </div>
   `;
 }

@@ -12,6 +12,7 @@ import {
   renderGuidesListPageContent,
   renderNotFoundPageContent,
   renderPrivacyPageContent,
+  renderQuizPageContent,
   renderTermsPageContent
 } from './views/pages'
 
@@ -56,6 +57,7 @@ app.get('/sitemap.xml', (c) => {
 
   const urls: { loc: string; priority: string; changefreq: string }[] = [
     { loc: `${origin}/`, priority: '1.0', changefreq: 'weekly' },
+    { loc: `${origin}/quiz`, priority: '0.9', changefreq: 'weekly' },
     { loc: `${origin}/guides`, priority: '0.9', changefreq: 'weekly' },
     { loc: `${origin}/about`, priority: '0.7', changefreq: 'monthly' },
     { loc: `${origin}/privacy`, priority: '0.5', changefreq: 'monthly' },
@@ -260,6 +262,16 @@ app.get('/', (c) => {
             <strong>"어떤 사람들이 봐야 할까?"</strong> 아래 메뉴에서 지금 내 상황과 가장 가까운 유형을 선택해 보세요.
             원하는 책을 클릭하면 <strong>작가 소개, 핵심 내용 요약, 3가지 실천 원칙, 명문장</strong>을 바로 열람하거나 전용 상세 해설 페이지로 깊이 있게 읽을 수 있습니다.
           </p>
+          <div class="mt-6 flex flex-wrap items-center gap-3">
+            <a href="/quiz" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-sm shadow-lg transition">
+              <i class="fa-solid fa-stethoscope"></i>
+              <span>1분 맞춤 인생책 진단 테스트 시작하기</span>
+            </a>
+            <a href="/guides" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-sm backdrop-blur-sm transition">
+              <i class="fa-solid fa-newspaper text-indigo-300"></i>
+              <span>실전 독서법 심층 칼럼 10편 보기</span>
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -634,6 +646,29 @@ app.get('/category/:id', (c) => {
       enableAds: true,
       activeNav: 'categories',
       bodyContent: renderCategoryPageContent(persona, PERSONA_CATEGORIES, booksInCat)
+    })
+  )
+})
+
+// 1분 맞춤 인생책 진단 테스트 페이지 (/quiz)
+app.get('/quiz', (c) => {
+  const origin = getOrigin(c.req.url)
+  const quizDataJson = JSON.stringify({
+    personas: PERSONA_CATEGORIES,
+    books: ALL_BOOKS
+  }).replace(/</g, '\\u003c')
+
+  return c.html(
+    renderSiteLayout({
+      title: '1분 맞춤 인생 자기계발서 진단 테스트 | 성장 서재 50',
+      description:
+        '5가지 질문으로 현재 나의 고민, 행동 패턴, 선호 난이도를 분석하여 50권의 검증된 명저 중 지금 가장 필요한 인생책 TOP 3를 처방해 드립니다.',
+      canonicalPath: '/quiz',
+      origin,
+      enableAds: true,
+      activeNav: 'quiz',
+      bodyContent: renderQuizPageContent(quizDataJson),
+      extraScriptSrc: '/static/quiz.js'
     })
   )
 })

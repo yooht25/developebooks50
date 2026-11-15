@@ -6,10 +6,11 @@ export interface LayoutOptions {
   canonicalPath: string;
   origin: string;
   enableAds: boolean; // 고품질 가이드라인 2부 준수: 풍부한 본문 콘텐츠 페이지에만 true, 404/정책 페이지에는 false
-  activeNav?: 'home' | 'guides' | 'categories' | 'about';
+  activeNav?: 'home' | 'quiz' | 'guides' | 'categories' | 'about';
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   bodyContent: string;
   includeAppJs?: boolean;
+  extraScriptSrc?: string;
 }
 
 export function escapeHtmlServer(str: string): string {
@@ -97,10 +98,11 @@ export function renderSiteLayout(opts: LayoutOptions): string {
 
         <!-- 명확한 사이트 탐색 주 메뉴 (AdSense 고품질 사이트 탐색 구조 준수) -->
         <nav aria-label="주요 사이트 메뉴" class="hidden md:flex items-center gap-1 text-sm font-semibold">
-          <a href="/" class="px-3 py-2 rounded-lg transition ${opts.activeNav === 'home' ? 'bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-slate-800'}">도서 50선 탐색</a>
-          <a href="/guides" class="px-3 py-2 rounded-lg transition ${opts.activeNav === 'guides' ? 'bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-slate-800'}">실전 독서 칼럼</a>
-          <a href="/category/habit-focus" class="px-3 py-2 rounded-lg transition ${opts.activeNav === 'categories' ? 'bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-slate-800'}">독자 유형별 로드맵</a>
-          <a href="/about" class="px-3 py-2 rounded-lg transition ${opts.activeNav === 'about' ? 'bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-slate-800'}">서비스 소개</a>
+          <a href="/" class="px-3 py-2 rounded-lg transition ${opts.activeNav === 'home' ? 'bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-slate-800'}">도서 50선</a>
+          <a href="/quiz" class="px-3 py-2 rounded-lg transition ${opts.activeNav === 'quiz' ? 'bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-slate-800'}"><i class="fa-solid fa-stethoscope text-indigo-500 mr-1 text-xs"></i>맞춤 책 진단</a>
+          <a href="/guides" class="px-3 py-2 rounded-lg transition ${opts.activeNav === 'guides' ? 'bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-slate-800'}">실전 독서 칼럼 (10)</a>
+          <a href="/category/habit-focus" class="px-3 py-2 rounded-lg transition ${opts.activeNav === 'categories' ? 'bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-slate-800'}">독자별 로드맵</a>
+          <a href="/about" class="px-3 py-2 rounded-lg transition ${opts.activeNav === 'about' ? 'bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-slate-800'}">소개</a>
         </nav>
       </div>
 
@@ -140,7 +142,8 @@ export function renderSiteLayout(opts: LayoutOptions): string {
     <!-- 모바일 보조 네비게이션 바 -->
     <nav aria-label="모바일 메뉴" class="md:hidden border-t border-stone-200/80 dark:border-slate-800 px-4 py-2 flex items-center gap-2 overflow-x-auto text-xs font-semibold">
       <a href="/" class="px-2.5 py-1 rounded-md shrink-0 ${opts.activeNav === 'home' ? 'bg-indigo-600 text-white' : 'text-slate-600 dark:text-slate-300 bg-stone-100 dark:bg-slate-800'}">도서 50선</a>
-      <a href="/guides" class="px-2.5 py-1 rounded-md shrink-0 ${opts.activeNav === 'guides' ? 'bg-indigo-600 text-white' : 'text-slate-600 dark:text-slate-300 bg-stone-100 dark:bg-slate-800'}">실전 독서 칼럼</a>
+      <a href="/quiz" class="px-2.5 py-1 rounded-md shrink-0 ${opts.activeNav === 'quiz' ? 'bg-indigo-600 text-white' : 'text-slate-600 dark:text-slate-300 bg-stone-100 dark:bg-slate-800'}">맞춤 책 진단</a>
+      <a href="/guides" class="px-2.5 py-1 rounded-md shrink-0 ${opts.activeNav === 'guides' ? 'bg-indigo-600 text-white' : 'text-slate-600 dark:text-slate-300 bg-stone-100 dark:bg-slate-800'}">실전 독서 칼럼 (10)</a>
       <a href="/category/habit-focus" class="px-2.5 py-1 rounded-md shrink-0 ${opts.activeNav === 'categories' ? 'bg-indigo-600 text-white' : 'text-slate-600 dark:text-slate-300 bg-stone-100 dark:bg-slate-800'}">독자별 추천</a>
       <a href="/about" class="px-2.5 py-1 rounded-md shrink-0 ${opts.activeNav === 'about' ? 'bg-indigo-600 text-white' : 'text-slate-600 dark:text-slate-300 bg-stone-100 dark:bg-slate-800'}">소개 및 원칙</a>
     </nav>
@@ -177,7 +180,8 @@ export function renderSiteLayout(opts: LayoutOptions): string {
         <div>
           <h3 class="text-sm font-bold text-white uppercase tracking-wider mb-3">가이드 및 정책 안내</h3>
           <ul class="space-y-2 text-xs sm:text-sm">
-            <li><a href="/guides" class="hover:text-white transition">실전 독서법 &amp; 심층 칼럼</a></li>
+            <li><a href="/quiz" class="hover:text-white transition">1분 맞춤 인생책 진단 테스트</a></li>
+            <li><a href="/guides" class="hover:text-white transition">실전 독서법 &amp; 심층 칼럼 (10편)</a></li>
             <li><a href="/about" class="hover:text-white transition">서비스 소개 및 도서 선정 기준</a></li>
             <li><a href="/privacy" class="hover:text-white transition">개인정보처리방침 (쿠키·광고 안내)</a></li>
             <li><a href="/terms" class="hover:text-white transition">이용약관 및 저작권 안내</a></li>
@@ -219,7 +223,7 @@ export function renderSiteLayout(opts: LayoutOptions): string {
         });
       }
     })();
-  </script>`
+  </script>${opts.extraScriptSrc ? `\n  <script src="${escapeHtmlServer(opts.extraScriptSrc)}"></script>` : ''}`
   }
 </body>
 </html>`;

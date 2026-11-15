@@ -177,10 +177,11 @@ html.dark #modal-scroll-body::-webkit-scrollbar-thumb {
 
         <!-- 명확한 사이트 탐색 주 메뉴 (AdSense 고품질 사이트 탐색 구조 준수) -->
         <nav aria-label="주요 사이트 메뉴" class="hidden md:flex items-center gap-1 text-sm font-semibold">
-          <a href="/" class="px-3 py-2 rounded-lg transition bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300">도서 50선 탐색</a>
-          <a href="/guides" class="px-3 py-2 rounded-lg transition text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-slate-800">실전 독서 칼럼</a>
-          <a href="/category/habit-focus" class="px-3 py-2 rounded-lg transition text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-slate-800">독자 유형별 로드맵</a>
-          <a href="/about" class="px-3 py-2 rounded-lg transition text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-slate-800">서비스 소개</a>
+          <a href="/" class="px-3 py-2 rounded-lg transition bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300">도서 50선</a>
+          <a href="/quiz" class="px-3 py-2 rounded-lg transition text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-slate-800"><i class="fa-solid fa-stethoscope text-indigo-500 mr-1 text-xs"></i>맞춤 책 진단</a>
+          <a href="/guides" class="px-3 py-2 rounded-lg transition text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-slate-800">실전 독서 칼럼 (10)</a>
+          <a href="/category/habit-focus" class="px-3 py-2 rounded-lg transition text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-slate-800">독자별 로드맵</a>
+          <a href="/about" class="px-3 py-2 rounded-lg transition text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-slate-800">소개</a>
         </nav>
       </div>
 
@@ -213,7 +214,8 @@ html.dark #modal-scroll-body::-webkit-scrollbar-thumb {
     <!-- 모바일 보조 네비게이션 바 -->
     <nav aria-label="모바일 메뉴" class="md:hidden border-t border-stone-200/80 dark:border-slate-800 px-4 py-2 flex items-center gap-2 overflow-x-auto text-xs font-semibold">
       <a href="/" class="px-2.5 py-1 rounded-md shrink-0 bg-indigo-600 text-white">도서 50선</a>
-      <a href="/guides" class="px-2.5 py-1 rounded-md shrink-0 text-slate-600 dark:text-slate-300 bg-stone-100 dark:bg-slate-800">실전 독서 칼럼</a>
+      <a href="/quiz" class="px-2.5 py-1 rounded-md shrink-0 text-slate-600 dark:text-slate-300 bg-stone-100 dark:bg-slate-800">맞춤 책 진단</a>
+      <a href="/guides" class="px-2.5 py-1 rounded-md shrink-0 text-slate-600 dark:text-slate-300 bg-stone-100 dark:bg-slate-800">실전 독서 칼럼 (10)</a>
       <a href="/category/habit-focus" class="px-2.5 py-1 rounded-md shrink-0 text-slate-600 dark:text-slate-300 bg-stone-100 dark:bg-slate-800">독자별 추천</a>
       <a href="/about" class="px-2.5 py-1 rounded-md shrink-0 text-slate-600 dark:text-slate-300 bg-stone-100 dark:bg-slate-800">소개 및 원칙</a>
     </nav>
@@ -238,6 +240,16 @@ html.dark #modal-scroll-body::-webkit-scrollbar-thumb {
             <strong>"어떤 사람들이 봐야 할까?"</strong> 아래 메뉴에서 지금 내 상황과 가장 가까운 유형을 선택해 보세요.
             원하는 책을 클릭하면 <strong>작가 소개, 핵심 내용 요약, 3가지 실천 원칙, 명문장</strong>을 바로 열람하거나 전용 상세 해설 페이지로 깊이 있게 읽을 수 있습니다.
           </p>
+          <div class="mt-6 flex flex-wrap items-center gap-3">
+            <a href="/quiz" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-sm shadow-lg transition">
+              <i class="fa-solid fa-stethoscope"></i>
+              <span>1분 맞춤 인생책 진단 테스트 시작하기</span>
+            </a>
+            <a href="/guides" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-sm backdrop-blur-sm transition">
+              <i class="fa-solid fa-newspaper text-indigo-300"></i>
+              <span>실전 독서법 심층 칼럼 10편 보기</span>
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -2036,6 +2048,72 @@ html.dark #modal-scroll-body::-webkit-scrollbar-thumb {
         </div>
         <span class="mt-4 text-xs font-bold text-indigo-600 dark:text-indigo-400 inline-flex items-center gap-1">심층 가이드 읽기 <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
       </a>
+      <a href="/guide/irreplaceable-career-and-personal-branding" class="group bg-white dark:bg-slate-900 rounded-2xl p-5 border border-stone-200 dark:border-slate-800 hover:border-indigo-500 dark:hover:border-indigo-500 shadow-sm transition flex flex-col justify-between">
+        <div>
+          <span class="inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-full text-white mb-3" style="background-color: #2563EB">
+            <i class="fa-solid fa-rocket"></i>
+            커리어 · 성취 심층 칼럼
+          </span>
+          <h3 class="font-bold text-base sm:text-lg text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition leading-snug serif-heading">AI 시대에 대체 불가능한 인재로 도약하는 커리어 전략과 퍼스널 브랜딩 공식</h3>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-2 line-clamp-2 leading-relaxed">남들이 다 따는 자격증과 야근만으로는 더 이상 커리어 안전지대를 보장받을 수 없습니다. 세계적 경영 사상가들과 빅데이터 전문가가 제시하는 대체 불가능성 구축 공식을 분석합니다.</p>
+        </div>
+        <span class="mt-4 text-xs font-bold text-indigo-600 dark:text-indigo-400 inline-flex items-center gap-1">심층 가이드 읽기 <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+      </a>
+      <a href="/guide/art-of-persuasion-and-leadership-communication" class="group bg-white dark:bg-slate-900 rounded-2xl p-5 border border-stone-200 dark:border-slate-800 hover:border-indigo-500 dark:hover:border-indigo-500 shadow-sm transition flex flex-col justify-between">
+        <div>
+          <span class="inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-full text-white mb-3" style="background-color: #E11D48">
+            <i class="fa-solid fa-comments"></i>
+            인간관계 · 리더십 가이드
+          </span>
+          <h3 class="font-bold text-base sm:text-lg text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition leading-snug serif-heading">갈등 없이 사람의 마음을 얻고 행동을 이끌어내는 설득과 리더십 대화의 기술</h3>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-2 line-clamp-2 leading-relaxed">논리적으로는 완벽한 말을 했는데도 상대방이 마음을 닫아버린 경험이 있나요? 자존심을 다치지 않게 하면서 자발적인 협력을 끌어내는 검증된 소통 공식을 정리했습니다.</p>
+        </div>
+        <span class="mt-4 text-xs font-bold text-indigo-600 dark:text-indigo-400 inline-flex items-center gap-1">심층 가이드 읽기 <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+      </a>
+      <a href="/guide/morning-ritual-and-sustainable-energy-system" class="group bg-white dark:bg-slate-900 rounded-2xl p-5 border border-stone-200 dark:border-slate-800 hover:border-indigo-500 dark:hover:border-indigo-500 shadow-sm transition flex flex-col justify-between">
+        <div>
+          <span class="inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-full text-white mb-3" style="background-color: #EA580C">
+            <i class="fa-solid fa-sun"></i>
+            루틴 · 에너지 관리 칼럼
+          </span>
+          <h3 class="font-bold text-base sm:text-lg text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition leading-snug serif-heading">의지박약도 실패하지 않는 아침 골든타임 설계와 하루 에너지 총량 관리법</h3>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-2 line-clamp-2 leading-relaxed">새벽 기상을 시도했다가 오후 내내 피로에 시달리며 포기한 경험이 있다면 방법이 틀렸기 때문입니다. 생체 리듬을 해치지 않으면서 하루의 주도권을 쥐는 지속 가능한 아침 설계법을 소개합니다.</p>
+        </div>
+        <span class="mt-4 text-xs font-bold text-indigo-600 dark:text-indigo-400 inline-flex items-center gap-1">심층 가이드 읽기 <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+      </a>
+      <a href="/guide/creative-thinking-and-rational-decision-making" class="group bg-white dark:bg-slate-900 rounded-2xl p-5 border border-stone-200 dark:border-slate-800 hover:border-indigo-500 dark:hover:border-indigo-500 shadow-sm transition flex flex-col justify-between">
+        <div>
+          <span class="inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-full text-white mb-3" style="background-color: #7C3AED">
+            <i class="fa-solid fa-lightbulb"></i>
+            창의성 · 의사결정 칼럼
+          </span>
+          <h3 class="font-bold text-base sm:text-lg text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition leading-snug serif-heading">고정관념을 깨는 역발상 기획력과 실수를 줄이는 인지과학 의사결정 기술</h3>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-2 line-clamp-2 leading-relaxed">창의성은 타고난 천재들의 전유물이 아니며 훌륭한 의사결정 역시 직관의 영역이 아닙니다. 노벨 경제학상 수상자와 혁신가들의 사고 도구를 실무 기획과 인생 선택에 적용하는 방법을 다룹니다.</p>
+        </div>
+        <span class="mt-4 text-xs font-bold text-indigo-600 dark:text-indigo-400 inline-flex items-center gap-1">심층 가이드 읽기 <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+      </a>
+      <a href="/guide/finding-life-meaning-in-age-of-comparison" class="group bg-white dark:bg-slate-900 rounded-2xl p-5 border border-stone-200 dark:border-slate-800 hover:border-indigo-500 dark:hover:border-indigo-500 shadow-sm transition flex flex-col justify-between">
+        <div>
+          <span class="inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-full text-white mb-3" style="background-color: #6D28D9">
+            <i class="fa-solid fa-compass"></i>
+            인생 방향 · 철학 칼럼
+          </span>
+          <h3 class="font-bold text-base sm:text-lg text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition leading-snug serif-heading">남들과의 비교로 불안한 시대에 흔들리지 않는 내 삶의 나침반 세우기</h3>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-2 line-clamp-2 leading-relaxed">겉으로는 남부럽지 않게 열심히 사는데 마음 한구석이 늘 공허하고 조급하다면 삶의 기준점이 내 바깥에 있기 때문입니다. 실존 심리학과 인문 성찰 명저들이 건네는 삶의 이정표를 살펴봅니다.</p>
+        </div>
+        <span class="mt-4 text-xs font-bold text-indigo-600 dark:text-indigo-400 inline-flex items-center gap-1">심층 가이드 읽기 <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+      </a>
+      <a href="/guide/science-of-metacognition-and-lifelong-learning" class="group bg-white dark:bg-slate-900 rounded-2xl p-5 border border-stone-200 dark:border-slate-800 hover:border-indigo-500 dark:hover:border-indigo-500 shadow-sm transition flex flex-col justify-between">
+        <div>
+          <span class="inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-full text-white mb-3" style="background-color: #1E40AF">
+            <i class="fa-solid fa-graduation-cap"></i>
+            메타인지 · 학습 전략 칼럼
+          </span>
+          <h3 class="font-bold text-base sm:text-lg text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition leading-snug serif-heading">성인이 된 후에도 뇌를 폭발적으로 성장시키는 메타인지 공부법과 아웃풋 전략</h3>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-2 line-clamp-2 leading-relaxed">나이가 들수록 머리가 굳는다는 통념은 현대 신경과학에서 이미 부정되었습니다. 뇌 가소성을 깨우고 투입 시간 대비 학습 효율을 3배 이상 끌어올리는 검증된 공부 전략을 총정리했습니다.</p>
+        </div>
+        <span class="mt-4 text-xs font-bold text-indigo-600 dark:text-indigo-400 inline-flex items-center gap-1">심층 가이드 읽기 <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+      </a>
       </div>
     </section>
 
@@ -2200,7 +2278,8 @@ html.dark #modal-scroll-body::-webkit-scrollbar-thumb {
         <div>
           <h3 class="text-sm font-bold text-white uppercase tracking-wider mb-3">가이드 및 정책 안내</h3>
           <ul class="space-y-2 text-xs sm:text-sm">
-            <li><a href="/guides" class="hover:text-white transition">실전 독서법 &amp; 심층 칼럼</a></li>
+            <li><a href="/quiz" class="hover:text-white transition">1분 맞춤 인생책 진단 테스트</a></li>
+            <li><a href="/guides" class="hover:text-white transition">실전 독서법 &amp; 심층 칼럼 (10편)</a></li>
             <li><a href="/about" class="hover:text-white transition">서비스 소개 및 도서 선정 기준</a></li>
             <li><a href="/privacy" class="hover:text-white transition">개인정보처리방침 (쿠키·광고 안내)</a></li>
             <li><a href="/terms" class="hover:text-white transition">이용약관 및 저작권 안내</a></li>
