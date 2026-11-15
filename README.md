@@ -9,7 +9,8 @@
 - **샌드박스 미리보기 URL**: https://3000-iow1tbugc9tgknr4nxvug-8f57ffe2.sandbox.novita.ai
 - **GitHub 저장소**: https://github.com/yooht25/developebooks50
 - **API 엔드포인트**:
-  - `GET /` : 메인 자기계발서 50선 큐레이션 웹페이지
+  - `GET /` : 메인 자기계발서 50선 큐레이션 웹페이지 (Google AdSense 메타 태그 및 자동 광고 스크립트 포함)
+  - `GET /ads.txt` : Google AdSense 소유권 및 판매자 인증 파일 (`pub-4024277026672694`)
   - `GET /api/personas` : 독자 유형(어떤 사람이 읽어야 하는지) 카테고리 8종 및 각 권수 반환
   - `GET /api/books?persona={id}&difficulty={입문|중급|심화}&q={검색어}&sort={정렬}` : 조건별 자기계발서 목록 조회
   - `GET /api/books/:id` : 개별 도서 상세 정보(작가 소개, 줄거리/핵심내용, 핵심 교훈 3가지, 명문장, 추천 독자, 연관 도서) 조회

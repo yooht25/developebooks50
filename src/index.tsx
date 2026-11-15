@@ -79,6 +79,13 @@ app.get('/api/books/:id', (c) => {
   return c.json({ book, related })
 })
 
+// Google AdSense ads.txt 라우트 (정적 파일과 함께 2중 보장)
+app.get('/ads.txt', (c) => {
+  return c.text('google.com, pub-4024277026672694, DIRECT, f08c47fec0942fa0\n', 200, {
+    'Content-Type': 'text/plain; charset=utf-8'
+  })
+})
+
 // 메인 페이지 렌더링
 app.get('/', (c) => {
   const initialDataJson = JSON.stringify({
@@ -91,8 +98,11 @@ app.get('/', (c) => {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-adsense-account" content="ca-pub-4024277026672694">
   <title>인생을 바꾸는 자기계발서 50선 | 나에게 꼭 맞는 성장 큐레이션</title>
   <meta name="description" content="시대를 초월해 검증된 자기계발서 50권을 추천 대상별로 탐색하고, 도서를 클릭해 작가 소개와 핵심 내용을 확인해보세요." />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4024277026672694"
+     crossorigin="anonymous"></script>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%234f46e5'/%3E%3Cpath d='M18 16h28a4 4 0 0 1 4 4v28a4 4 0 0 1-4 4H18a4 4 0 0 1-4-4V20a4 4 0 0 1 4-4zm4 8v20h20V24H22z' fill='%23ffffff'/%3E%3C/svg%3E" />
   <script>
     // 화면 깜빡임(FOUC) 방지를 위한 초기 테마 즉시 적용
