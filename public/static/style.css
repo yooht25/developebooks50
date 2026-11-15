@@ -13,12 +13,17 @@ body {
 
 /* 도서 카드 호버 및 입체 책등(Spine) 연출 */
 .book-card {
-  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.22s ease;
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.22s ease, border-color 0.2s ease, background-color 0.2s ease;
 }
 
 .book-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 18px 34px -10px rgba(15, 23, 42, 0.14);
+}
+
+html.dark .book-card:hover {
+  box-shadow: 0 20px 38px -12px rgba(0, 0, 0, 0.65);
+  border-color: #4f46e5;
 }
 
 .book-cover-visual {
@@ -42,7 +47,7 @@ body {
   z-index: 2;
 }
 
-/* 독자 유형 선택 메뉴 활성 상태 */
+/* 독자 유형 선택 메뉴 활성 상태 (화이트 / 다크 모드 대응) */
 .persona-tab-btn {
   transition: all 0.18s ease;
 }
@@ -51,6 +56,12 @@ body {
   border-color: #4f46e5;
   background: linear-gradient(135deg, #eef2ff 0%, #ffffff 100%);
   box-shadow: 0 4px 14px -3px rgba(79, 70, 229, 0.22);
+}
+
+html.dark .persona-tab-btn[aria-selected="true"] {
+  border-color: #6366f1;
+  background: linear-gradient(135deg, rgba(49, 46, 129, 0.55) 0%, rgba(15, 23, 42, 0.95) 100%);
+  box-shadow: 0 6px 18px -4px rgba(99, 102, 241, 0.35);
 }
 
 /* 모달 등장 애니메이션 */
@@ -84,7 +95,7 @@ body {
   overflow: hidden;
 }
 
-/* 커스텀 스크롤바 */
+/* 커스텀 스크롤바 (라이트 & 다크) */
 #modal-scroll-body::-webkit-scrollbar {
   width: 7px;
 }
@@ -95,5 +106,14 @@ body {
 
 #modal-scroll-body::-webkit-scrollbar-thumb {
   background: #cbd5e1;
+  border-radius: 9999px;
+}
+
+html.dark #modal-scroll-body::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+html.dark #modal-scroll-body::-webkit-scrollbar-thumb {
+  background: #334155;
   border-radius: 9999px;
 }

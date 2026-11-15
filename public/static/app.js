@@ -15,7 +15,8 @@
     bookmarkOnly: false,
     bookmarks: loadBookmarks(),
     filteredBooks: [...allBooks],
-    activeBookId: null
+    activeBookId: null,
+    theme: document.documentElement.classList.contains('dark') ? 'dark' : 'light'
   };
 
   // 로컬스토리지 북마크 불러오기/저장하기
@@ -48,6 +49,10 @@
   }
 
   // DOM 요소 참조
+  const themeToggleBtn = document.getElementById('theme-toggle-btn');
+  const themeToggleIcon = document.getElementById('theme-toggle-icon');
+  const themeToggleLabel = document.getElementById('theme-toggle-label');
+
   const personaMenuGrid = document.getElementById('persona-menu-grid');
   const resetPersonaBtn = document.getElementById('reset-persona-btn');
   const bannerIcon = document.getElementById('banner-icon');
@@ -95,6 +100,60 @@
   const modalNextBtn = document.getElementById('modal-next-btn');
   const modalPositionIndicator = document.getElementById('modal-position-indicator');
 
+  // 다크 모드 / 화이트 모드 테마 전환 함수
+  function applyTheme(theme) {
+    state.theme = theme;
+    const isDark = theme === 'dark';
+
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+
+    try {
+      localStorage.setItem('growth_library_theme_v1', theme);
+    } catch (e) {
+      // ignore storage errors
+    }
+
+    if (themeToggleIcon && themeToggleLabel && themeToggleBtn) {
+      if (isDark) {
+        // 현재 다크 모드일 때 -> 클릭 시 화이트 모드로 전환 안내
+        themeToggleIcon.className = 'fa-solid fa-sun text-amber-400';
+        themeToggleLabel.textContent = '화이트 모드';
+        themeToggleBtn.setAttribute('title', '화이트 모드로 전환');
+      } else {
+        // 현재 화이트 모드일 때 -> 클릭 시 다크 모드로 전환 안내
+        themeToggleIcon.className = 'fa-solid fa-moon text-indigo-600';
+        themeToggleLabel.textContent = '다크 모드';
+        themeToggleBtn.setAttribute('title', '다크 모드로 전환');
+      }
+    }
+  }
+
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+      const nextTheme = state.theme === 'dark' ? 'light' : 'dark';
+      applyTheme(nextTheme);
+    });
+  }
+
+  // 페르소나 배지 다크모드 호환 클래스 보강
+  function getDarkAwareBadgeClass(persona) {
+    const map = {
+      'all': 'bg-indigo-100 text-indigo-800 border-indigo-200 dark:bg-indigo-950/70 dark:text-indigo-200 dark:border-indigo-800',
+      'habit-focus': 'bg-teal-100 text-teal-800 border-teal-200 dark:bg-teal-950/70 dark:text-teal-200 dark:border-teal-800',
+      'mindset-healing': 'bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-950/70 dark:text-emerald-200 dark:border-emerald-800',
+      'career-success': 'bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-950/70 dark:text-blue-200 dark:border-blue-800',
+      'relationship-comm': 'bg-rose-100 text-rose-800 border-rose-200 dark:bg-rose-950/70 dark:text-rose-200 dark:border-rose-800',
+      'wealth-finance': 'bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-950/70 dark:text-amber-200 dark:border-amber-800',
+      'life-philosophy': 'bg-violet-100 text-violet-800 border-violet-200 dark:bg-violet-950/70 dark:text-violet-200 dark:border-violet-800',
+      'creative-thinking': 'bg-orange-100 text-orange-800 border-orange-200 dark:bg-orange-950/70 dark:text-orange-200 dark:border-orange-800'
+    };
+    return map[persona.id] || persona.badgeClass;
+  }
+
   // 페르소나별 권수 계산
   function getPersonaBookCount(personaId) {
     if (personaId === 'all') return allBooks.length;
@@ -119,7 +178,7 @@
             role="tab"
             aria-selected="${isSelected}"
             data-persona-id="${escapeHtml(persona.id)}"
-            class="persona-tab-btn text-left p-3.5 rounded-xl border border-stone-200 bg-stone-50/70 hover:bg-white hover:border-indigo-300 flex items-start gap-3 group"
+            class="persona-tab-btn text-left p-3.5 rounded-xl border border-stone-200 dark:border-slate-700/90 bg-stone-50/70 dark:bg-slate-800/60 hover:bg-white dark:hover:bg-slate-800 hover:border-indigo-300 dark:hover:border-indigo-500 flex items-start gap-3 group"
           >
             <span
               class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 text-white shadow-sm transition-transform group-hover:scale-105"
@@ -129,10 +188,10 @@
             </span>
             <span class="flex-1 min-w-0">
               <span class="flex items-center justify-between gap-1">
-                <span class="font-bold text-sm text-slate-900 truncate">${escapeHtml(persona.shortLabel)}</span>
-                <span class="text-xs font-bold px-2 py-0.5 rounded-full ${isSelected ? 'bg-indigo-600 text-white' : 'bg-stone-200/80 text-slate-600'}">${count}권</span>
+                <span class="font-bold text-sm text-slate-900 dark:text-slate-100 truncate">${escapeHtml(persona.shortLabel)}</span>
+                <span class="text-xs font-bold px-2 py-0.5 rounded-full ${isSelected ? 'bg-indigo-600 text-white' : 'bg-stone-200/80 dark:bg-slate-700 text-slate-600 dark:text-slate-300'}">${count}권</span>
               </span>
-              <span class="block text-xs text-slate-500 mt-1 line-clamp-2 leading-snug">${escapeHtml(persona.label)}</span>
+              <span class="block text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2 leading-snug">${escapeHtml(persona.label)}</span>
             </span>
           </button>
         `;
@@ -207,7 +266,8 @@
     const currentPersona = getPersonaById(state.selectedPersona) || allPersonas[0];
 
     if (state.bookmarkOnly) {
-      bannerIcon.className = 'fa-solid fa-bookmark text-indigo-600 mt-0.5 sm:mt-0';
+      bannerIcon.className = 'fa-solid fa-bookmark text-indigo-600 dark:text-indigo-400 mt-0.5 sm:mt-0';
+      bannerIcon.style.color = '';
       bannerTitle.textContent = '내 서재에 담아둔 관심 도서';
       bannerDesc.textContent = '읽고 싶은 책으로 북마크한 자기계발서 목록입니다.';
     } else if (currentPersona) {
@@ -249,7 +309,8 @@
           .map((pid) => {
             const p = getPersonaById(pid);
             if (!p) return '';
-            return `<span class="text-[11px] font-semibold px-2 py-0.5 rounded-md border ${escapeHtml(p.badgeClass)}">${escapeHtml(p.shortLabel)}</span>`;
+            const badgeCls = getDarkAwareBadgeClass(p);
+            return `<span class="text-[11px] font-semibold px-2 py-0.5 rounded-md border ${escapeHtml(badgeCls)}">${escapeHtml(p.shortLabel)}</span>`;
           })
           .join('');
 
@@ -259,7 +320,7 @@
             tabindex="0"
             role="button"
             aria-label="${escapeHtml(book.title)} - 클릭하여 작가와 내용 보기"
-            class="book-card cursor-pointer bg-white rounded-2xl border border-stone-200/90 overflow-hidden flex flex-col justify-between focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            class="book-card cursor-pointer bg-white dark:bg-slate-900 rounded-2xl border border-stone-200/90 dark:border-slate-800 overflow-hidden flex flex-col justify-between focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
             <div>
               <!-- 입체 북커버 상단 -->
@@ -290,23 +351,23 @@
 
               <!-- 카드 본문 -->
               <div class="p-4 pb-3">
-                <div class="flex items-center justify-between gap-2 text-xs text-slate-500 mb-2">
-                  <span class="font-semibold text-slate-700 truncate">
-                    <i class="fa-solid fa-feather text-indigo-500 mr-1"></i>${escapeHtml(book.author)}
+                <div class="flex items-center justify-between gap-2 text-xs text-slate-500 dark:text-slate-400 mb-2">
+                  <span class="font-semibold text-slate-700 dark:text-slate-200 truncate">
+                    <i class="fa-solid fa-feather text-indigo-500 dark:text-indigo-400 mr-1"></i>${escapeHtml(book.author)}
                   </span>
-                  <span class="shrink-0 text-[11px] px-2 py-0.5 rounded bg-stone-100 text-slate-600 font-medium">${escapeHtml(book.difficulty)} · ${book.year}</span>
+                  <span class="shrink-0 text-[11px] px-2 py-0.5 rounded bg-stone-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium">${escapeHtml(book.difficulty)} · ${book.year}</span>
                 </div>
 
-                <p class="text-xs sm:text-sm text-slate-600 line-clamp-3 leading-relaxed mb-3">
+                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed mb-3">
                   ${escapeHtml(book.summary)}
                 </p>
 
                 <!-- 어떤 사람이 봐야 하는지 한 줄 미리보기 -->
-                <div class="bg-stone-50 rounded-xl p-2.5 border border-stone-100">
-                  <p class="text-[11px] font-bold text-indigo-700 mb-1 flex items-center gap-1">
+                <div class="bg-stone-50 dark:bg-slate-800/70 rounded-xl p-2.5 border border-stone-100 dark:border-slate-700/80">
+                  <p class="text-[11px] font-bold text-indigo-700 dark:text-indigo-400 mb-1 flex items-center gap-1">
                     <i class="fa-solid fa-user-tag text-[10px]"></i>추천 독자
                   </p>
-                  <p class="text-xs text-slate-700 line-clamp-2 leading-snug">
+                  <p class="text-xs text-slate-700 dark:text-slate-200 line-clamp-2 leading-snug">
                     ${escapeHtml(book.whoShouldRead[0] || '')}
                   </p>
                 </div>
@@ -314,11 +375,11 @@
             </div>
 
             <!-- 카드 푸터 -->
-            <div class="px-4 py-3 border-t border-stone-100 flex items-center justify-between gap-2 bg-stone-50/40">
+            <div class="px-4 py-3 border-t border-stone-100 dark:border-slate-800 flex items-center justify-between gap-2 bg-stone-50/40 dark:bg-slate-900/60">
               <div class="flex flex-wrap gap-1">
                 ${personaBadgesHtml}
               </div>
-              <span class="text-xs font-bold text-indigo-600 inline-flex items-center gap-1 shrink-0">
+              <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 inline-flex items-center gap-1 shrink-0">
                 내용 보기 <i class="fa-solid fa-chevron-right text-[10px]"></i>
               </span>
             </div>
@@ -372,13 +433,13 @@
     bookmarkFilterBtn.setAttribute('aria-pressed', String(state.bookmarkOnly));
     if (state.bookmarkOnly) {
       bookmarkFilterBtn.className =
-        'inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-semibold bg-indigo-600 text-white border border-indigo-600 shadow-sm transition';
+        'inline-flex items-center gap-2 px-3 sm:px-3.5 py-2 rounded-xl text-sm font-semibold bg-indigo-600 text-white border border-indigo-600 shadow-sm transition';
       bookmarkHeaderIcon.className = 'fa-solid fa-bookmark text-amber-300';
       bookmarkCountBadge.className = 'px-1.5 py-0.5 text-xs font-bold rounded-full bg-white text-indigo-700';
     } else {
       bookmarkFilterBtn.className =
-        'inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium bg-stone-100 text-slate-700 border border-stone-200 hover:bg-stone-200 transition';
-      bookmarkHeaderIcon.className = 'fa-regular fa-bookmark text-indigo-600';
+        'inline-flex items-center gap-2 px-3 sm:px-3.5 py-2 rounded-xl text-sm font-medium bg-stone-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-stone-200 dark:border-slate-700 hover:bg-stone-200 dark:hover:bg-slate-700 transition';
+      bookmarkHeaderIcon.className = 'fa-regular fa-bookmark text-indigo-600 dark:text-indigo-400';
       bookmarkCountBadge.className = 'px-1.5 py-0.5 text-xs font-bold rounded-full bg-indigo-600 text-white';
     }
   }
@@ -387,6 +448,16 @@
     const isSaved = state.bookmarks.has(bookId);
     modalBookmarkBtn.innerHTML = `<i class="${isSaved ? 'fa-solid text-amber-300' : 'fa-regular text-white'} fa-bookmark"></i>`;
     modalBookmarkBtn.setAttribute('title', isSaved ? '내 서재에서 제거' : '내 서재에 저장');
+  }
+
+  // 난이도 버튼 활성화 스타일 일괄 업데이트 (라이트/다크 대응)
+  function syncDifficultyButtonsUI() {
+    difficultyBtns.forEach((b) => {
+      const isActive = (b.getAttribute('data-difficulty') || 'all') === state.difficulty;
+      b.className = isActive
+        ? 'difficulty-btn active px-3 py-1.5 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm font-semibold transition'
+        : 'difficulty-btn px-3 py-1.5 rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+    });
   }
 
   // 4. 도서 상세 모달 열기 (작가 소개 + 핵심 내용 + 추천 대상 표시)
@@ -419,9 +490,9 @@
     modalKeyLessons.innerHTML = book.keyLessons
       .map(
         (lesson, idx) => `
-        <li class="flex items-start gap-3 bg-stone-50 p-3.5 rounded-xl border border-stone-200/70">
+        <li class="flex items-start gap-3 bg-stone-50 dark:bg-slate-800/80 p-3.5 rounded-xl border border-stone-200/70 dark:border-slate-700">
           <span class="w-6 h-6 rounded-full bg-teal-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">${idx + 1}</span>
-          <span class="text-sm sm:text-base text-slate-700 leading-relaxed">${escapeHtml(lesson)}</span>
+          <span class="text-sm sm:text-base text-slate-700 dark:text-slate-200 leading-relaxed">${escapeHtml(lesson)}</span>
         </li>
       `
       )
@@ -435,11 +506,12 @@
       .map((pid) => {
         const p = getPersonaById(pid);
         if (!p) return '';
+        const badgeCls = getDarkAwareBadgeClass(p);
         return `
           <button
             type="button"
             data-modal-persona-jump="${escapeHtml(p.id)}"
-            class="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full border ${escapeHtml(p.badgeClass)} hover:opacity-85 transition"
+            class="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full border ${escapeHtml(badgeCls)} hover:opacity-85 transition"
           >
             <i class="fa-solid ${escapeHtml(p.icon)}"></i>
             <span>${escapeHtml(p.label)}</span>
@@ -465,7 +537,7 @@
       .map(
         (item) => `
         <li class="flex items-start gap-2.5">
-          <i class="fa-solid fa-check text-emerald-600 mt-1 shrink-0 text-xs"></i>
+          <i class="fa-solid fa-check text-emerald-600 dark:text-emerald-400 mt-1 shrink-0 text-xs"></i>
           <span class="leading-relaxed">${escapeHtml(item)}</span>
         </li>
       `
@@ -483,14 +555,14 @@
         <button
           type="button"
           data-related-id="${rel.id}"
-          class="text-left p-3 rounded-xl border border-stone-200 hover:border-indigo-400 hover:bg-indigo-50/40 transition flex items-start gap-2.5"
+          class="text-left p-3 rounded-xl border border-stone-200 dark:border-slate-700 bg-white dark:bg-slate-800/60 hover:border-indigo-400 dark:hover:border-indigo-500 hover:bg-indigo-50/40 dark:hover:bg-slate-800 transition flex items-start gap-2.5"
         >
           <span class="w-8 h-8 rounded-lg flex items-center justify-center text-white shrink-0 mt-0.5" style="background-color: ${escapeHtml(rel.coverTheme.bgFrom)}">
             <i class="fa-solid ${escapeHtml(rel.coverTheme.icon)} text-xs"></i>
           </span>
           <span class="min-w-0">
-            <span class="block font-bold text-xs sm:text-sm text-slate-900 truncate">${escapeHtml(rel.title)}</span>
-            <span class="block text-[11px] text-slate-500 truncate mt-0.5">${escapeHtml(rel.author)}</span>
+            <span class="block font-bold text-xs sm:text-sm text-slate-900 dark:text-slate-100 truncate">${escapeHtml(rel.title)}</span>
+            <span class="block text-[11px] text-slate-500 dark:text-slate-400 truncate mt-0.5">${escapeHtml(rel.author)}</span>
           </span>
         </button>
       `
@@ -563,12 +635,7 @@
   difficultyBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
       state.difficulty = btn.getAttribute('data-difficulty') || 'all';
-      difficultyBtns.forEach((b) => {
-        const active = b === btn;
-        b.className = active
-          ? 'difficulty-btn active px-3 py-1.5 rounded-md bg-white text-slate-900 shadow-sm font-semibold transition'
-          : 'difficulty-btn px-3 py-1.5 rounded-md text-slate-600 hover:text-slate-900 transition';
-      });
+      syncDifficultyButtonsUI();
       applyFiltersAndRender();
     });
   });
@@ -589,12 +656,7 @@
     if (searchInput) searchInput.value = '';
     if (clearSearchBtn) clearSearchBtn.classList.add('hidden');
     if (sortSelect) sortSelect.value = 'id-asc';
-    difficultyBtns.forEach((b) => {
-      const isAll = b.getAttribute('data-difficulty') === 'all';
-      b.className = isAll
-        ? 'difficulty-btn active px-3 py-1.5 rounded-md bg-white text-slate-900 shadow-sm font-semibold transition'
-        : 'difficulty-btn px-3 py-1.5 rounded-md text-slate-600 hover:text-slate-900 transition';
-    });
+    syncDifficultyButtonsUI();
     updateBookmarkHeaderUI();
     applyFiltersAndRender();
   }
@@ -658,6 +720,8 @@
   });
 
   // 초기 렌더링 실행
+  applyTheme(state.theme);
+  syncDifficultyButtonsUI();
   updateBookmarkHeaderUI();
   applyFiltersAndRender();
 })();
